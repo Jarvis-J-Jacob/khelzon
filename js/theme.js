@@ -39,6 +39,7 @@ export function renderGithubButton(extraClass = '') {
   return `
     <a href="${GITHUB_URL}" class="tool-btn github-link ${extraClass}" target="_blank" rel="noopener noreferrer" aria-label="View source on GitHub" title="GitHub">
       ${GITHUB_SVG}
+      <span class="tool-btn-label">GitHub</span>
     </a>
   `;
 }
@@ -49,6 +50,7 @@ export function renderThemeToggle(extraClass = '') {
     <button type="button" class="tool-btn theme-toggle ${extraClass}" aria-label="${isLight ? 'Switch to dark theme' : 'Switch to light theme'}" title="Toggle theme">
       ${SUN_SVG}
       ${MOON_SVG}
+      <span class="tool-btn-label">Theme</span>
     </button>
   `;
 }

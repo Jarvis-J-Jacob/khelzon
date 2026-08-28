@@ -73,6 +73,7 @@ export function renderHeaderInstallButton() {
   return `
     <button type="button" class="tool-btn pwa-install-btn${hidden}" data-pwa-install title="Install app" aria-label="Install KhelZon app">
       ${INSTALL_SVG}
+      <span class="tool-btn-label">Install</span>
     </button>
   `;
 }
