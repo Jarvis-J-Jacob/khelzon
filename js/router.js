@@ -5,7 +5,7 @@ import { isLobbyRoute, getLobbyView, showLobbyView, hideLobbyScreen } from './lo
 
 let activeGameCleanup = null;
 let activeFilter = 'All';
-
+let activeSearch = '';
 export function initRouter(onNavigate) {
   window.addEventListener('hashchange', () => handleRoute(onNavigate));
   handleRoute(onNavigate);
@@ -75,9 +75,32 @@ function refreshCurrentView() {
 }
 
 function renderHomePage() {
-  const games = getGamesByCategory(activeFilter);
+  const games = getGamesByCategory(activeFilter).filter(g =>
+    g.name.toLowerCase().includes(activeSearch.toLowerCase())
+  );
   const scores = storage.getAllScores();
   const playerName = storage.getActiveUserName();
+
+  const gridHtml = games.length
+    ? games.map(g => {
+        const sc = scores[g.id];
+        const best = sc?.best ? (g.id === 'marble-solo' ? (sc.best === 1 ? 'Win' : sc.best) : sc.best) : '—';
+        return `
+          <article class="game-card" data-game="${g.id}" tabindex="0" role="button" aria-label="Play ${g.name}">
+            <div class="game-card-top">
+              <span class="game-card-icon">${g.icon}</span>
+              <span class="game-card-badge">${g.category}</span>
+            </div>
+            <h3>${g.name}</h3>
+            <p>${g.description}</p>
+            <div class="game-card-meta">
+              <span class="game-card-score">Best: ${best}</span>
+              <span class="game-card-play">Play →</span>
+            </div>
+          </article>
+        `;
+      }).join('')
+    : `<p class="empty-search">No games match “${activeSearch}”.</p>`;
 
   return `
     <section class="hero">
@@ -100,6 +123,13 @@ function renderHomePage() {
       </div>
     </section>
 
+    <div class="search-wrap">
+      <label class="visually-hidden" for="arcadeSearch">Search games</label>
+      <input id="arcadeSearch" class="arcade-search" type="search"
+        placeholder="Search games" autocomplete="off"
+        aria-label="Search games by name" value="${activeSearch}">
+    </div>
+
     <div class="filter-bar" id="filterBar">
       ${getCategories().map(cat => `
         <button class="filter-btn ${cat === activeFilter ? 'active' : ''}" data-filter="${cat}">${cat}</button>
@@ -108,24 +138,7 @@ function renderHomePage() {
 
     <h2 class="section-title">🕹️ Pick a Game</h2>
     <div class="game-grid" id="gameGrid">
-      ${games.map(g => {
-        const sc = scores[g.id];
-        const best = sc?.best ? (g.id === 'marble-solo' ? (sc.best === 1 ? 'Win' : sc.best) : sc.best) : '—';
-        return `
-          <article class="game-card" data-game="${g.id}" tabindex="0" role="button" aria-label="Play ${g.name}">
-            <div class="game-card-top">
-              <span class="game-card-icon">${g.icon}</span>
-              <span class="game-card-badge">${g.category}</span>
-            </div>
-            <h3>${g.name}</h3>
-            <p>${g.description}</p>
-            <div class="game-card-meta">
-              <span class="game-card-score">Best: ${best}</span>
-              <span class="game-card-play">Play →</span>
-            </div>
-          </article>
-        `;
-      }).join('')}
+      ${gridHtml}
     </div>
   `;
 }
@@ -147,7 +160,20 @@ function bindHomeEvents() {
     const card = e.target.closest('[data-game]');
     if (card) location.hash = `#/play/${card.dataset.game}`;
   });
-
+const search = document.getElementById('arcadeSearch');
+if (search) {
+  search.addEventListener('input', e => {
+    activeSearch = e.target.value;
+    main.dataset.bound = '';
+    main.innerHTML = renderHomePage();
+    bindHomeEvents();
+    const again = document.getElementById('arcadeSearch');
+    if (again) {
+      again.focus();
+      again.setSelectionRange(again.value.length, again.value.length);
+    }
+  });
+}
   main.addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === ' ') {
       const card = e.target.closest('[data-game]');

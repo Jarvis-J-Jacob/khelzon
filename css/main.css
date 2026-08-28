@@ -1127,6 +1127,28 @@ body::before {
 }
 
 /* ── Filter Bar ── */
+.search-wrap { margin-bottom: 0.75rem; }
+.arcade-search {
+  width: min(100%, 360px);
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+.arcade-search:focus {
+  outline: none;
+  border-color: var(--accent-saffron);
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+.empty-search { color: var(--text-muted); padding: 1.5rem 0; }
 .filter-bar {
   display: flex;
   gap: 0.5rem;
