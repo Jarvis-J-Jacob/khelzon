@@ -103,6 +103,7 @@ body::before {
 
 .tool-btn {
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 40px;
@@ -121,6 +122,10 @@ body::before {
 [data-theme="light"] .tool-btn {
   background: rgba(255, 255, 255, 0.85);
   border-color: rgba(26, 26, 46, 0.15);
+}
+
+.tool-btn-label {
+  font-size: 0.6rem;
 }
 
 .tool-btn:hover {
@@ -1912,6 +1917,7 @@ body.game-active .app {
 
 @media (max-width: 480px) {
   .main { padding: 1rem; }
+  .tool-btn-label { display: none; }
   .game-screen-header { padding: 0.65rem 0.85rem; gap: 0.5rem; }
   .game-screen-back span { display: none; }
   .game-stage { padding: 0.5rem; }
