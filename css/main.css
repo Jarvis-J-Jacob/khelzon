@@ -158,6 +158,10 @@ body::before {
   align-items: center;
 }
 
+.header-tools {
+  gap: 0.35rem;
+}
+
 .header-tools .tool-pair,
 .game-screen-tools .tool-pair {
   gap: 0.35rem;
