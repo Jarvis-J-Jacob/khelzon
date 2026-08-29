@@ -1,5 +1,6 @@
 import { storage } from '../storage.js';
 import { fitGrid } from '../gameFit.js';
+import { shareScore } from '../share.js';
 
 const SIZE = 6;
 const PLAYER = 1;
@@ -89,7 +90,13 @@ export default function initTerritoryClash(container) {
       msg = `<div class="game-msg">Draw — ${you} tiles each.</div>`;
       storage.saveScore('territory-clash', you);
     }
-    document.getElementById('tcMsg').innerHTML = msg;
+   document.getElementById('tcMsg').innerHTML = `
+  ${msg}
+  <button id="tcShareBtn" class="btn btn-share">Share Score ↗</button>
+`;
+document.getElementById('tcShareBtn').addEventListener('click', () => {
+  shareScore(you, 'Territory Clash');
+});
     updateHud();
     render();
   }

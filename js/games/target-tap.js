@@ -1,4 +1,5 @@
 import { storage } from '../storage.js';
+import { shareScore } from '../share.js';
 
 export default function initTargetTap(container) {
   container.innerHTML = `
@@ -45,8 +46,13 @@ export default function initTargetTap(container) {
     arena.querySelectorAll('.tt-target').forEach(el => el.remove());
     idleEl.hidden = false;
     storage.saveScore('target-tap', score);
-    document.getElementById('ttMsg').innerHTML =
-      `<div class="game-msg lose">Game over! Score: ${score}</div>`;
+    document.getElementById('ttMsg').innerHTML = `
+  <div class="game-msg lose">Game over! Score: ${score}</div>
+  <button id="ttShareBtn" class="btn btn-share">Share Score ↗</button>
+`;
+document.getElementById('ttShareBtn').addEventListener('click', () => {
+  shareScore(score, 'Target Tap');
+});
     const best = storage.getScore('target-tap');
     document.getElementById('ttBest').textContent = best.best || score;
   }
