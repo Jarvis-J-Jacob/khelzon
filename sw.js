@@ -1,4 +1,4 @@
-const CACHE = 'khelzon-v2';
+const CACHE = 'khelzon-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -6,6 +6,10 @@ const ASSETS = [
   './css/games.css',
   './js/app.js',
   './js/theme.js',
+  './js/sound.js',
+  './js/shortcutsHelp.js',
+  './js/resetScoresModal.js',
+  './js/share.js',
   './js/pwa.js',
   './js/sync.js',
   './js/lobby.js',

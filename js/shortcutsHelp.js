@@ -44,7 +44,7 @@ function toggleModal() {
   if (modal && !modal.hidden) closeModal(); else openModal();
 }
 
-function injectHelpButton() {
+export function initShortcuts() {
   const footer = document.querySelector('.footer');
   if (!footer || document.getElementById('shortcutHelpBtn')) return;
   const button = document.createElement('button');
@@ -118,6 +118,3 @@ style.textContent = `
   .shortcut-list kbd { font-family: var(--font-mono); border: 1px solid var(--border-strong); border-radius: 5px; padding: .2rem .45rem; background: var(--bg-elevated); }
 `;
 document.head.append(style);
-
-new MutationObserver(injectHelpButton).observe(document.body, { childList: true, subtree: true });
-injectHelpButton();

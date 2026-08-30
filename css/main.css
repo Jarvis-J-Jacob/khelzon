@@ -1136,7 +1136,28 @@ body::before {
 }
 
 /* ── Filter Bar ── */
-.search-wrap { margin-bottom: 0.75rem; }
+.search-wrap {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+.search-wrap .arcade-search {
+  flex: 1;
+  max-width: 360px;
+}
+.surprise-me-btn {
+  white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .search-wrap {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-wrap .arcade-search {
+    max-width: 100%;
+  }
+}
 .arcade-search {
   width: min(100%, 360px);
   padding: 0.55rem 0.9rem;
@@ -1925,4 +1946,42 @@ body.game-active .app {
   .game-screen-header { padding: 0.65rem 0.85rem; gap: 0.5rem; }
   .game-screen-back span { display: none; }
   .game-stage { padding: 0.5rem; }
+}
+
+/* ── Share Score Button & Toast ── */
+.btn-share {
+  margin-top: 0.75rem;
+  background: var(--accent-saffron);
+  color: var(--bg-deep);
+  font-weight: 600;
+  border: 0;
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.btn-share:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translate(-50%, 20px);
+  background: var(--accent-teal);
+  color: #fff;
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  font-size: 0.9rem;
+  z-index: 13000;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.toast-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }

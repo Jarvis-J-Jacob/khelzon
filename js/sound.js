@@ -8,22 +8,34 @@ export function isSoundEnabled() {
   }
 }
 
-function setSoundEnabled(enabled) {
+export function setSoundEnabled(enabled) {
   try { localStorage.setItem(SOUND_KEY, enabled ? 'on' : 'off'); } catch { /* ignore */ }
   syncSoundToggleUI();
 }
 
-function syncSoundToggleUI() {
+export function syncSoundToggleUI() {
   const enabled = isSoundEnabled();
   document.querySelectorAll('.sound-toggle').forEach(button => {
-    button.textContent = enabled ? '🔊' : '🔇';
+    const text = enabled ? '🔊' : '🔇';
+    if (button.textContent !== text) {
+      button.textContent = text;
+    }
     button.setAttribute('aria-label', enabled ? 'Mute sound effects' : 'Unmute sound effects');
     button.title = enabled ? 'Mute sound effects' : 'Unmute sound effects';
     button.setAttribute('aria-pressed', String(!enabled));
   });
 }
 
-function injectSoundToggles() {
+export function renderSoundToggle(extraClass = '') {
+  const enabled = isSoundEnabled();
+  return `
+    <button type="button" class="tool-btn sound-toggle ${extraClass}" aria-label="${enabled ? 'Mute sound effects' : 'Unmute sound effects'}" title="${enabled ? 'Mute sound effects' : 'Unmute sound effects'}" aria-pressed="${!enabled}">
+      ${enabled ? '🔊' : '🔇'}
+    </button>
+  `;
+}
+
+export function initSound() {
   ['headerTools', 'sidebarTools', 'gameScreenTools'].forEach(id => {
     const container = document.getElementById(id);
     if (!container || container.querySelector('.sound-toggle')) return;
@@ -41,6 +53,3 @@ document.addEventListener('click', event => {
   event.preventDefault();
   setSoundEnabled(!isSoundEnabled());
 });
-
-new MutationObserver(injectSoundToggles).observe(document.body, { childList: true, subtree: true });
-injectSoundToggles();

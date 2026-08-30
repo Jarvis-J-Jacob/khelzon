@@ -1,8 +1,4 @@
-import './sound.js';
-import './shortcutsHelp.js';
 import './resetScoresModal.js';
-import './randomGame.js';
-
 import { initRouter, setupGameScreen, refreshCurrentView } from './router.js';
 import { gameRegistry } from './gameRegistry.js';
 import { setupUsers, updateUserBadge } from './users.js';
@@ -11,6 +7,8 @@ import { initLobby } from './lobby.js';
 import { initTheme, renderToolPair, syncThemeToggleUI } from './theme.js';
 import { initPwa, renderHeaderInstallButton, refreshInstallButtons } from './pwa.js';
 import { initCrossTabSync } from './sync.js';
+import { renderSoundToggle, syncSoundToggleUI } from './sound.js';
+import { initShortcuts } from './shortcutsHelp.js';
 
 async function registerSW() {
   if ('serviceWorker' in navigator) {
@@ -23,10 +21,12 @@ async function registerSW() {
 function mountToolbars() {
   const pair = renderToolPair();
   const install = renderHeaderInstallButton();
-  document.getElementById('headerTools').innerHTML = install + pair;
-  document.getElementById('sidebarTools').innerHTML = pair;
-  document.getElementById('gameScreenTools').innerHTML = pair;
+  const sound = renderSoundToggle();
+  document.getElementById('headerTools').innerHTML = install + pair + sound;
+  document.getElementById('sidebarTools').innerHTML = pair + sound;
+  document.getElementById('gameScreenTools').innerHTML = pair + sound;
   syncThemeToggleUI();
+  syncSoundToggleUI();
   refreshInstallButtons();
 }
 
@@ -79,6 +79,7 @@ async function boot() {
   initTheme();
   initPwa();
   mountToolbars();
+  initShortcuts();
 
   updateOnlineStatus();
   window.addEventListener('online', updateOnlineStatus);
