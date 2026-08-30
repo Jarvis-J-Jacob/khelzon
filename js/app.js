@@ -1,3 +1,4 @@
+import './shortcutsHelp.js';
 import './resetScoresModal.js';
 import './randomGame.js';
 
