@@ -1,4 +1,6 @@
+import './resetScoresModal.js';
 import './randomGame.js';
+
 import { initRouter, setupGameScreen, refreshCurrentView } from './router.js';
 import { gameRegistry } from './gameRegistry.js';
 import { setupUsers, updateUserBadge } from './users.js';
