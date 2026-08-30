@@ -1,5 +1,6 @@
 import { storage } from '../storage.js';
 import { fitCanvasDisplay } from '../gameFit.js';
+import { shareScore } from '../share.js';
 
 export default function initSnakeRush(container) {
   const W = 400, H = 400, CELL = 20;
@@ -78,7 +79,13 @@ export default function initSnakeRush(container) {
       running = false;
       clearInterval(interval);
       storage.saveScore('snake-rush', score);
-      document.getElementById('snMsg').innerHTML = `<div class="game-msg lose">Game Over! Score: ${score}</div>`;
+      document.getElementById('snMsg').innerHTML = `
+  <div class="game-msg lose">Game Over! Score: ${score}</div>
+  <button id="snShareBtn" class="btn btn-share">Share Score ↗</button>
+`;
+document.getElementById('snShareBtn').addEventListener('click', () => {
+  shareScore(score, 'Snake Rush');
+});
       return;
     }
 

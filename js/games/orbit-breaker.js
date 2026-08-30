@@ -1,5 +1,6 @@
 import { storage } from '../storage.js';
 import { fitCanvasDisplay } from '../gameFit.js';
+import { shareScore } from '../share.js';
 
 export default function initOrbitBreaker(container) {
   const W = 480, H = 360;
@@ -97,7 +98,13 @@ export default function initOrbitBreaker(container) {
       if (lives <= 0) {
         running = false;
         storage.saveScore('orbit-breaker', score);
-        document.getElementById('obMsg').innerHTML = `<div class="game-msg lose">Game Over! Score: ${score}</div>`;
+        document.getElementById('obMsg').innerHTML = `
+  <div class="game-msg lose">Game Over! Score: ${score}</div>
+  <button id="obShareBtn" class="btn btn-share">Share Score ↗</button>
+`;
+document.getElementById('obShareBtn').addEventListener('click', () => {
+  shareScore(score, 'Orbit Breaker');
+});
         return;
       }
       resetBall();
