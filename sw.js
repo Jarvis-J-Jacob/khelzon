@@ -10,6 +10,7 @@ const ASSETS = [
   './js/shortcutsHelp.js',
   './js/resetScoresModal.js',
   './js/share.js',
+  './js/requestGame.js',
   './js/pwa.js',
   './js/sync.js',
   './js/lobby.js',
